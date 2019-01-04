@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Sandbox",
+    "parent": {
+      "type": "folder",
+      "id": "12345678901"
+    },
+    "projectId": "sandbox",
+    "projectNumber": "123456789010",
+    "lifecycleState": "ACTIVE",
+    "createTime": "2018-12-20T11:59:29.678Z"
+  },
+  {
+    "name": "Megabox",
+    "parent": {
+      "type": "folder",
+      "id": "12345678901"
+    },
+    "projectId": "megabox",
+    "projectNumber": "123456789011",
+    "lifecycleState": "ACTIVE",
+    "createTime": "2018-12-17T20:56:19.480Z"
+  },
+  {
+    "name": "Softbox",
+    "parent": {
+      "type": "folder",
+      "id": "12345678901"
+    },
+    "projectId": "softbox",
+    "projectNumber": "123456789012",
+    "lifecycleState": "ACTIVE",
+    "createTime": "2018-12-17T20:14:10.781Z"
+  }
+]

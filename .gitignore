@@ -1,0 +1,13 @@
+# dotenv environment variables file
+.env
+.custom.yml
+
+# Serverless directories
+.serverless
+
+# npm
+node_modules
+
+# Python
+.pytest_cache
+env

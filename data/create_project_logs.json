@@ -1,0 +1,40 @@
+{
+  "insertId": "jfbdydc50e",
+  "logName": "organizations/985546547024/logs/cloudaudit.googleapis.com%2Factivity",
+  "protoPayload": {
+    "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+    "authenticationInfo": {
+      "principalEmail": "drazen.peric@goavio.com"
+    },
+    "methodName": "CreateProject",
+    "request": {
+      "project": {
+        "createTime": "2018-12-07T15:17:16.737Z",
+        "lifecycleState": "ACTIVE",
+        "name": "to-remove-drazen",
+        "parent": {
+          "id": "985546547024",
+          "type": "organization"
+        },
+        "projectId": "to-remove-drazen",
+        "projectNumber": "37559420870"
+      }
+    },
+    "requestMetadata": {
+      "callerIp": "212.93.239.82",
+      "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36,gzip(gfe)"
+    },
+    "resourceName": "projects/to-remove-drazen",
+    "serviceName": "cloudresourcemanager.googleapis.com",
+    "status": {}
+  },
+  "receiveTimestamp": "2018-12-07T15:17:22.61325968Z",
+  "resource": {
+    "labels": {
+      "project_id": "to-remove-drazen"
+    },
+    "type": "project"
+  },
+  "severity": "NOTICE",
+  "timestamp": "2018-12-07T15:17:21.752Z"
+}

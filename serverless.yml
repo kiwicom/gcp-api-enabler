@@ -1,0 +1,39 @@
+service: gcp-api-enabler
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+package:
+  exclude:
+    - data/**
+    - docs/**
+    - env/**
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
+plugins:
+  - serverless-google-cloudfunctions
+
+custom: ${file(.custom.yml)}
+
+provider:
+  name: google
+  runtime: python37
+  project: ${self:custom.PROJECT_ID}
+  credentials: ${self:custom.GCLOUD_CREDENTIALS}
+  region: europe-west1
+
+functions:
+  apiEnablerListener:
+    handler: api_enabler_listener
+    memorySize: 256
+    events:
+      - event:
+          eventType: providers/cloud.pubsub/eventTypes/topic.publish
+          resource: projects/${self:provider.project}/topics/${self:custom.TOPIC_NAME}
+  apiEnablerHttp:
+    handler: api_enabler_http
+    memorySize: 256
+    timeout: 300s
+    events:
+      - http: path
