@@ -41,7 +41,6 @@ def api_enabler_http(request):
     projects = get_projects(credentials)
 
     for project in projects:
-        print(project)
         if project['lifecycleState'] != PROJECT_ACTIVE:
             continue
         project_number = project['projectNumber']

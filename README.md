@@ -3,7 +3,7 @@
 Google Cloud Function that enables stated APIs for newly created projects. GCP API Enabler saves your time, especially when you need to create multiple GCP projects at once.
 
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) 
-[![Python: 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://python.org) 
+[![Python: 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://python.org) 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kiwicom/gitlab-unfurly/blob/master/LICENSE)
 
