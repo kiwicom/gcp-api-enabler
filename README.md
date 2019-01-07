@@ -7,15 +7,17 @@ Google Cloud Function that enables stated APIs for newly created projects. GCP A
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kiwicom/gitlab-unfurly/blob/master/LICENSE)
 
-GCP API Enabler has two handler methods - one that gets triggered with simple GET request, and another one that can be triggered from Google Cloud Pub/Sub topic. In the documentation below, we will show you how to setup a function that will be triggered when a new project is created under your Google Cloud organization.
+GCP API Enabler has two handler methods - one that gets triggered with simple GET request, and another one that can be triggered from Google Cloud Pub/Sub topic when new project in organization is created. In the documentation below, we will show you how to setup a function that will be triggered when a new project is created under your Google Cloud organization.
 
-TODO: can take a while
+The one that gets triggered with GET request will enable stated APIs for all your organization project, and because of that it can take a while.
+
+The other one, triggered by the Pub/Sub topic when new project is created, will enable APIs only for that project.
 
 ## Usage
 
 ### Requirements
 
-If you do not have it already, install [gcloud](https://cloud.google.com/sdk/install) SDK.
+If you do not have it already, install [gcloud SDK](https://cloud.google.com/sdk/install).
 
 ```bash
 git clone git@github.com:kiwicom/gcp-api-enabler.git
@@ -26,7 +28,7 @@ npm install
 
 ### Google Cloud Platform
 
-You will deploy GCP API Enabler to [Google Cloud Platform](https://cloud.google.com/) using [https://serverless.com/](Serverless) framework. But first, make sure you configure everything mentioned below. Most of the actions can be fulfilled using gcloud SDK. But for some, you will need to handle it manually.
+You will deploy GCP API Enabler to [Google Cloud Platform](https://cloud.google.com/) using [Serverless](https://serverless.com/) framework. But first, make sure you configure everything mentioned below. Most of the actions can be fulfilled using gcloud SDK, but for some, you will need to handle it manually.
 
 #### Billing Account
 
@@ -63,7 +65,7 @@ gcloud services enable serviceusage.googleapis.com
 
 In order to create a new service account that you will use to deploy API Enabler, follow [Serverless documentation](https://serverless.com/framework/docs/providers/google/guide/credentials#get-credentials--assign-roles).
 
-And if you already have sufficient service account, skip this step.
+If you already have sufficient service account, skip this step.
 
 #### Assign roles to service account used by cloud functions
 
@@ -95,7 +97,7 @@ Output of this method will be something like:
 
 ![alt text](docs/pub_sub_service_account.png)
 
-4. Try to [est your topic](https://cloud.google.com/pubsub/docs/quickstart-console) to see if it works correctly.
+4. Try to [test your topic](https://cloud.google.com/pubsub/docs/quickstart-console) to see if it works correctly.
 
 ### Deployment
 
@@ -118,13 +120,14 @@ If you want to change a list of services that you would like to enable, change t
 ```python
 def init_services():
     return {
-        'dialogflow.googleapis.com': True,
-        'container.googleapis.com': False,
-        'compute.googleapis.com': False,
+        'container.googleapis.com': True,
+        'compute.googleapis.com': True,
+        'storage-api.googleapis.com': True,
+        'cloudresourcemanager.googleapis.com': True
     }
 ```
 
-You can also keep a service in a list, but mark it as it should not be enabled.
+True/False states whether API should be enabled or disabled (but it won't
 
 #### Deploy
 
