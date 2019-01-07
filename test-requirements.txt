@@ -7,6 +7,7 @@
 atomicwrites==1.2.1       # via pytest
 attrs==18.2.0             # via pytest
 funcsigs==1.0.2           # via pytest
+mock==2.0.0
 more-itertools==5.0.0     # via pytest
 pathlib2==2.3.3           # via pytest
 pluggy==0.8.0             # via pytest

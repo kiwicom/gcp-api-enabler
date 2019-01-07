@@ -11,3 +11,4 @@ node_modules
 # Python
 .pytest_cache
 env
+venv
