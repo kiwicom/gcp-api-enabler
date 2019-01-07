@@ -16,7 +16,8 @@ def init_services():
         'container.googleapis.com': True,
         'compute.googleapis.com': True,
         'storage-api.googleapis.com': True,
-        'cloudresourcemanager.googleapis.com': True
+        'cloudresourcemanager.googleapis.com': True,
+        'sqladmin.googleapis.com': True,
     }
 
 
