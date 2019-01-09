@@ -9,7 +9,7 @@ STATE_DISABLED = 'DISABLED'
 STATE_ENABLED = 'ENABLED'
 
 
-def init_services():
+def initial_services():
     """Preferred services should be stated here.
     :return: dict
     """
@@ -90,7 +90,7 @@ def enable_services(credentials, project_number):
     """
     enabled_services = []
 
-    services_to_enable = init_services()
+    services_to_enable = initial_services()
 
     project_name = 'projects/' + project_number
 
@@ -180,8 +180,6 @@ def enable_service(credentials, service_name):
     service_usage = discovery.build('serviceusage', 'v1', credentials=credentials)
 
     service_usage.services().enable(name=service_name).execute()
-
-    return True
 
 
 def get_credentials():

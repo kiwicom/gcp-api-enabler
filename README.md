@@ -115,10 +115,10 @@ In `.custom.yml`, adjust `PROJECT_ID`, `GCLOUD_CREDENTIALS` and `TOPIC_NAME`.
 
 #### Change services
 
-If you want to change a list of services that you would like to enable, change this list in `init_services` and redeploy.
+If you want to change a list of services that you would like to enable, change this list in `initial_services` and redeploy.
 
 ```python
-def init_services():
+def initial_services():
     return {
         'container.googleapis.com': True,
         'compute.googleapis.com': True,
