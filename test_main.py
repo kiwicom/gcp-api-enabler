@@ -75,14 +75,14 @@ def test_api_enabler_listener_without_data(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     with pytest.raises(ValueError, message="Received data is empty."):
         data = {}
-        uut.api_enabler_listener(data)
+        uut.api_enabler_listener(data, None)
 
 
 def test_api_enabler_listener_with_wrong_data(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     with pytest.raises(ValueError, message="Received data is not related to CreateObject event"):
         data = {"data": base64.b64encode("{\"protoPayload\": {\"methodName\": \"Wrooong\"}}".encode())}
-        uut.api_enabler_listener(data)
+        uut.api_enabler_listener(data, None)
 
 
 def test_api_enabler_listener_default_settings(mocker):
@@ -99,7 +99,7 @@ def test_api_enabler_listener_default_settings(mocker):
         raw_data = f.read()
         data = {"data": base64.b64encode(raw_data.encode())}
 
-    response = json.loads(uut.api_enabler_listener(data))
+    response = json.loads(uut.api_enabler_listener(data, None))
 
     assert 'enabledServices' in response
     assert '37559420870' in response['enabledServices']
@@ -124,7 +124,7 @@ def test_api_enabler_listener_changed_enabled_services(mocker):
         raw_data = f.read()
         data = {"data": base64.b64encode(raw_data.encode())}
 
-    response = json.loads(uut.api_enabler_listener(data))
+    response = json.loads(uut.api_enabler_listener(data, None))
 
     assert 'enabledServices' in response
     assert '37559420870' in response['enabledServices']
@@ -148,7 +148,7 @@ def test_api_enabler_listener_changed_init_services(mocker):
         raw_data = f.read()
         data = {"data": base64.b64encode(raw_data.encode())}
 
-    response = json.loads(uut.api_enabler_listener(data))
+    response = json.loads(uut.api_enabler_listener(data, None))
 
     assert 'enabledServices' in response
     assert '37559420870' in response['enabledServices']

@@ -54,9 +54,10 @@ def api_enabler_http(request):
     return json.dumps(response_data, indent=4)
 
 
-def api_enabler_listener(data):
+def api_enabler_listener(data, context):
     """Gets triggered by Pub/Sub topic.
-    :param data: dict
+    :param data: dict: The dictionary with data specific to this type of event.
+    :param context: (google.cloud.functions.Context): The Cloud Functions event metadata.
     :return: Response
     """
     response_data = init_response_data()
