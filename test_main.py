@@ -2,6 +2,7 @@ import json
 import pytest
 import base64
 
+from unittest.mock import Mock
 from pathlib import Path
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
@@ -23,7 +24,8 @@ def test_api_enabler_http_default_settings(mocker):
         projects_data = json.load(f)
         mocker.patch.object(uut, 'get_projects', return_value=projects_data)
 
-    response = json.loads(uut.api_enabler_http({}))
+    request = Mock(get_json=Mock(return_value={}), args={})
+    response = json.loads(uut.api_enabler_http(request))
 
     assert 'enabledServices' in response
     assert '123456789010' in response['enabledServices']
@@ -60,7 +62,8 @@ def test_api_enabler_http_changed_init_services(mocker):
         projects_data = json.load(f)
         mocker.patch.object(uut, 'get_projects', return_value=projects_data)
 
-    response = json.loads(uut.api_enabler_http({}))
+    request = Mock(get_json=Mock(return_value={}), args={})
+    response = json.loads(uut.api_enabler_http(request))
 
     assert 'enabledServices' in response
     assert '123456789010' in response['enabledServices']
