@@ -31,9 +31,9 @@ functions:
       - event:
           eventType: providers/cloud.pubsub/eventTypes/topic.publish
           resource: projects/${self:provider.project}/topics/${self:custom.TOPIC_NAME}
-  apiEnablerHttp:
-    handler: api_enabler_http
-    memorySize: 256
-    timeout: 300s
-    events:
-      - http: path
+#  apiEnablerHttp: # This function will not be deployed by default since it gets publicly available. Deploy it on your own risk
+#    handler: api_enabler_http
+#    memorySize: 256
+#    timeout: 300s
+#    events:
+#      - http: path

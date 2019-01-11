@@ -22,7 +22,7 @@ def initial_services():
     }
 
 
-def init_response_data():
+def initial_response_data():
     """Inits response data
     :return: dict
     """
@@ -36,9 +36,19 @@ def api_enabler_http(request):
     :param request: flask.Request
     :return: Response
     """
-    response_data = init_response_data()
+    project_number = request.args.get('project_number')
+
+    response_data = initial_response_data()
 
     credentials = get_credentials()
+
+    if project_number:
+        response_data['enabledServices'][project_number] = enable_services(
+            credentials=credentials,
+            project_number=project_number
+        )
+
+        return json.dumps(response_data, indent=4)
 
     projects = get_projects(credentials)
 
@@ -60,9 +70,18 @@ def api_enabler_listener(data, context):
     :param context: (google.cloud.functions.Context): The Cloud Functions event metadata.
     :return: Response
     """
-    response_data = init_response_data()
+    response_data = initial_response_data()
 
     credentials = get_credentials()
+
+    # You can send project_number directly from Testing tab in Cloud Functions editor
+    if 'project_number' in data:
+        response_data['enabledServices'][data['project_number']] = enable_services(
+            credentials=credentials,
+            project_number=data['project_number']
+        )
+
+        return json.dumps(response_data, indent=4)
 
     if 'data' not in data:
         raise ValueError("Received data is empty.")
