@@ -19,6 +19,7 @@ def initial_services():
         'storage-api.googleapis.com': True,
         'cloudresourcemanager.googleapis.com': True,
         'sqladmin.googleapis.com': True,
+        'iam.googleapis.com': True,
     }
 
 
