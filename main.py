@@ -20,6 +20,7 @@ def initial_services():
         'cloudresourcemanager.googleapis.com': True,
         'sqladmin.googleapis.com': True,
         'iam.googleapis.com': True,
+        'servicenetworking.googleapis.com': True,
     }
 
 
