@@ -10,5 +10,9 @@ node_modules
 
 # Python
 .pytest_cache
+__pycache__/
 env
 venv
+main.pyc
+
+.DS_Store
