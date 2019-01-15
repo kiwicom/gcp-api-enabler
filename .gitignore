@@ -15,4 +15,5 @@ env
 venv
 main.pyc
 
+# random
 .DS_Store
