@@ -10,8 +10,6 @@ STATE_DISABLED = 'DISABLED'
 STATE_ENABLED = 'ENABLED'
 
 
-# TODO: test this with actual data - google api should return bla bla
-
 def initial_response_data():
     """Inits response data
     :return: dict
