@@ -109,10 +109,10 @@ cp .env.example .env
 
 In `.env`, adjust `PROJECT_ID`, `GCLOUD_CREDENTIALS`, `TOPIC_NAME` and `SERVICES_TO_ENABLE`.
 
-`PROJECT_ID` - your (new) project id.
-`GCLOUD_CREDENTIALS` - path to gcloud credentials downloaded above.
-`TOPIC_NAME` - Pub/Sub topic name you created above.
-`SERVICES_TO_ENABLE` - list of services you would like to enable by default, separated by comma(`,`).
+* `PROJECT_ID` - your (new) project id.
+* `GCLOUD_CREDENTIALS` - path to gcloud credentials downloaded above.
+* `TOPIC_NAME` - Pub/Sub topic name you created above.
+* `SERVICES_TO_ENABLE` - list of services you would like to enable by default, separated by comma(`,`).
 
 `SERVICES_TO_ENABLE` will be deployed as an environmental variable to your Google Cloud Function. If you are changing a list of services, you will need to redeploy your code.
 
