@@ -11,5 +11,7 @@
     "serverless": "^1.34.1",
     "serverless-google-cloudfunctions": "^2.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^2.0.1"
+  }
 }

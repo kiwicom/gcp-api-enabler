@@ -13,14 +13,18 @@ package:
 
 plugins:
   - serverless-google-cloudfunctions
+  - serverless-dotenv-plugin
 
-custom: ${file(.custom.yml)}
+custom:
+  dotenv:
+    include:
+      - SERVICES_TO_ENABLE
 
 provider:
   name: google
   runtime: python37
-  project: ${self:custom.PROJECT_ID}
-  credentials: ${self:custom.GCLOUD_CREDENTIALS}
+  project: ${env:PROJECT_ID}
+  credentials: ${env:GCLOUD_CREDENTIALS}
   region: europe-west1
 
 functions:
@@ -30,7 +34,7 @@ functions:
     events:
       - event:
           eventType: providers/cloud.pubsub/eventTypes/topic.publish
-          resource: projects/${self:provider.project}/topics/${self:custom.TOPIC_NAME}
+          resource: projects/${self:provider.project}/topics/${env:TOPIC_NAME}
 #  apiEnablerHttp: # This function will not be deployed by default since it gets publicly available. Deploy it on your own risk
 #    handler: api_enabler_http
 #    memorySize: 256

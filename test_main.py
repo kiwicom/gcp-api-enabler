@@ -1,6 +1,7 @@
 import json
 import pytest
 import base64
+import os
 
 from unittest.mock import Mock
 from pathlib import Path
@@ -19,6 +20,10 @@ def datafile(filename):
 def test_api_enabler_http_default_settings(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     mocker.patch.object(discovery, 'build')
+    mocker.patch.dict(os.environ, {
+        'SERVICES_TO_ENABLE': 'compute.googleapis.com,cloudresourcemanager.googleapis.com,container.googleapis.com,'
+                              'storage-api.googleapis.com'
+    })
 
     with Path.open(datafile('projects_list.json')) as f:
         projects_data = json.load(f)
@@ -51,12 +56,7 @@ def test_api_enabler_http_default_settings(mocker):
 def test_api_enabler_http_changed_init_services(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     mocker.patch.object(discovery, 'build')
-    mocker.patch.object(uut, 'initial_services', return_value={
-        'container.googleapis.com': False,
-        'compute.googleapis.com': True,
-        'storage-api.googleapis.com': False,
-        'cloudresourcemanager.googleapis.com': False
-    })
+    mocker.patch.dict(os.environ, {'SERVICES_TO_ENABLE': 'compute.googleapis.com'})
 
     with Path.open(datafile('projects_list.json')) as f:
         projects_data = json.load(f)
@@ -91,11 +91,9 @@ def test_api_enabler_listener_with_wrong_data(mocker):
 def test_api_enabler_listener_default_settings(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     mocker.patch.object(discovery, 'build')
-    mocker.patch.object(uut, 'initial_services', return_value={
-        'container.googleapis.com': True,
-        'compute.googleapis.com': True,
-        'storage-api.googleapis.com': True,
-        'cloudresourcemanager.googleapis.com': True
+    mocker.patch.dict(os.environ, {
+        'SERVICES_TO_ENABLE': 'compute.googleapis.com,cloudresourcemanager.googleapis.com,container.googleapis.com,'
+                              'storage-api.googleapis.com'
     })
 
     with Path.open(datafile('create_project_logs.json')) as f:
@@ -116,6 +114,9 @@ def test_api_enabler_listener_default_settings(mocker):
 def test_api_enabler_listener_changed_enabled_services(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     mocker.patch.object(discovery, 'build')
+    mocker.patch.dict(os.environ, {
+        'SERVICES_TO_ENABLE': 'compute.googleapis.com,cloudresourcemanager.googleapis.com,container.googleapis.com'
+    })
     mocker.patch.object(uut, 'get_enabled_services', return_value=[{
         'name': 'projects/37559420870/services/storage-api.googleapis.com',
         'config': {'name': 'storage-api.googleapis.com'},
@@ -140,11 +141,8 @@ def test_api_enabler_listener_changed_enabled_services(mocker):
 def test_api_enabler_listener_changed_init_services(mocker):
     mocker.patch.object(GoogleCredentials, 'get_application_default', return_value='')
     mocker.patch.object(discovery, 'build')
-    mocker.patch.object(uut, 'initial_services', return_value={
-        'container.googleapis.com': True,
-        'compute.googleapis.com': False,
-        'storage-api.googleapis.com': True,
-        'cloudresourcemanager.googleapis.com': True
+    mocker.patch.dict(os.environ, {
+        'SERVICES_TO_ENABLE': 'cloudresourcemanager.googleapis.com,container.googleapis.com,storage-api.googleapis.com'
     })
 
     with Path.open(datafile('create_project_logs.json')) as f:

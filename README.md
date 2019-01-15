@@ -101,33 +101,20 @@ Output of this method will be something like:
 
 ### Deployment
 
-#### Adjust custom settings
+#### Adjust your environment and list of services
 
 ```bash
-cp .custom.yml.example .custom.yml
+cp .env.example .env
 ```
 
-In `.custom.yml`, adjust `PROJECT_ID`, `GCLOUD_CREDENTIALS` and `TOPIC_NAME`.
+In `.env`, adjust `PROJECT_ID`, `GCLOUD_CREDENTIALS`, `TOPIC_NAME` and `SERVICES_TO_ENABLE`.
 
-`PROJECT_ID` - your (new) project id
-`GCLOUD_CREDENTIALS` - path to gcloud credentials downloaded above
-`TOPIC_NAME` - Pub/Sub topic name you created above
+`PROJECT_ID` - your (new) project id.
+`GCLOUD_CREDENTIALS` - path to gcloud credentials downloaded above.
+`TOPIC_NAME` - Pub/Sub topic name you created above.
+`SERVICES_TO_ENABLE` - list of services you would like to enable by default, separated by comma(`,`).
 
-#### Change services
-
-If you want to change a list of services that you would like to enable, change this list in `initial_services` and redeploy.
-
-```python
-def initial_services():
-    return {
-        'container.googleapis.com': True,
-        'compute.googleapis.com': True,
-        'storage-api.googleapis.com': True,
-        'cloudresourcemanager.googleapis.com': True
-    }
-```
-
-True/False states whether API should be enabled or disabled, even though it works only in one direction aka it will not disable an API that is already enabled.
+`SERVICES_TO_ENABLE` will be deployed as an environmental variable to your Google Cloud Function. If you are changing a list of services, you will need to redeploy your code.
 
 #### Deploy
 

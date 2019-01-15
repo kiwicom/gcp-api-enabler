@@ -1,5 +1,6 @@
 import json
 import base64
+import os
 
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
@@ -9,20 +10,7 @@ STATE_DISABLED = 'DISABLED'
 STATE_ENABLED = 'ENABLED'
 
 
-def initial_services():
-    """Preferred services should be stated here.
-    :return: dict
-    """
-    return {
-        'container.googleapis.com': True,
-        'compute.googleapis.com': True,
-        'storage-api.googleapis.com': True,
-        'cloudresourcemanager.googleapis.com': True,
-        'sqladmin.googleapis.com': True,
-        'iam.googleapis.com': True,
-        'servicenetworking.googleapis.com': True,
-    }
-
+# TODO: test this with actual data - google api should return bla bla
 
 def initial_response_data():
     """Inits response data
@@ -104,6 +92,20 @@ def api_enabler_listener(data, context):
     return json.dumps(response_data, indent=4)
 
 
+def get_services_to_enable():
+    """Loads services from environment.
+    :return: dict
+    """
+    services_to_enable = {}
+
+    services_to_enable_raw = os.environ['SERVICES_TO_ENABLE']
+
+    for service in services_to_enable_raw.split(','):
+        services_to_enable[service] = True
+
+    return services_to_enable
+
+
 def enable_services(credentials, project_number):
     """Will enable services for given project number.
     :param project_number: string
@@ -112,7 +114,7 @@ def enable_services(credentials, project_number):
     """
     enabled_services = []
 
-    services_to_enable = initial_services()
+    services_to_enable = get_services_to_enable()
 
     project_name = 'projects/' + project_number
 
