@@ -5,18 +5,16 @@ import os
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
-PROJECT_ACTIVE = 'ACTIVE'
-STATE_DISABLED = 'DISABLED'
-STATE_ENABLED = 'ENABLED'
+PROJECT_ACTIVE = "ACTIVE"
+STATE_DISABLED = "DISABLED"
+STATE_ENABLED = "ENABLED"
 
 
 def initial_response_data():
     """Inits response data
     :return: dict
     """
-    return {
-        'enabledServices': {}
-    }
+    return {"enabledServices": {}}
 
 
 def api_enabler_http(request):
@@ -24,16 +22,15 @@ def api_enabler_http(request):
     :param request: flask.Request
     :return: Response
     """
-    project_number = request.args.get('project_number')
+    project_number = request.args.get("project_number")
 
     response_data = initial_response_data()
 
     credentials = get_credentials()
 
     if project_number:
-        response_data['enabledServices'][project_number] = enable_services(
-            credentials=credentials,
-            project_number=project_number
+        response_data["enabledServices"][project_number] = enable_services(
+            credentials=credentials, project_number=project_number
         )
 
         return json.dumps(response_data, indent=4)
@@ -41,12 +38,11 @@ def api_enabler_http(request):
     projects = get_projects(credentials)
 
     for project in projects:
-        if project['lifecycleState'] != PROJECT_ACTIVE:
+        if project["lifecycleState"] != PROJECT_ACTIVE:
             continue
-        project_number = project['projectNumber']
-        response_data['enabledServices'][project_number] = enable_services(
-            credentials=credentials,
-            project_number=project_number
+        project_number = project["projectNumber"]
+        response_data["enabledServices"][project_number] = enable_services(
+            credentials=credentials, project_number=project_number
         )
 
     return json.dumps(response_data, indent=4)
@@ -63,28 +59,26 @@ def api_enabler_listener(data, context):
     credentials = get_credentials()
 
     # You can send project_number directly from Testing tab in Cloud Functions editor
-    if 'project_number' in data:
-        response_data['enabledServices'][data['project_number']] = enable_services(
-            credentials=credentials,
-            project_number=data['project_number']
+    if "project_number" in data:
+        response_data["enabledServices"][data["project_number"]] = enable_services(
+            credentials=credentials, project_number=data["project_number"]
         )
 
         return json.dumps(response_data, indent=4)
 
-    if 'data' not in data:
+    if "data" not in data:
         raise ValueError("Received data is empty.")
 
-    json_data = json.loads('{}'.format(base64.b64decode(data['data']).decode('utf-8')))
-    method_name = json_data['protoPayload']['methodName']
+    json_data = json.loads("{}".format(base64.b64decode(data["data"]).decode("utf-8")))
+    method_name = json_data["protoPayload"]["methodName"]
 
-    if method_name != 'CreateProject':
+    if method_name != "CreateProject":
         raise ValueError("Received data is not related to CreateObject event.")
 
-    project_number = json_data['protoPayload']['request']['project']['projectNumber']
+    project_number = json_data["protoPayload"]["request"]["project"]["projectNumber"]
 
-    response_data['enabledServices'][project_number] = enable_services(
-        credentials=credentials,
-        project_number=project_number
+    response_data["enabledServices"][project_number] = enable_services(
+        credentials=credentials, project_number=project_number
     )
 
     return json.dumps(response_data, indent=4)
@@ -96,9 +90,9 @@ def get_services_to_enable():
     """
     services_to_enable = {}
 
-    services_to_enable_raw = os.environ['SERVICES_TO_ENABLE']
+    services_to_enable_raw = os.environ["SERVICES_TO_ENABLE"]
 
-    for service in services_to_enable_raw.split(','):
+    for service in services_to_enable_raw.split(","):
         services_to_enable[service] = True
 
     return services_to_enable
@@ -114,19 +108,19 @@ def enable_services(credentials, project_number):
 
     services_to_enable = get_services_to_enable()
 
-    project_name = 'projects/' + project_number
+    project_name = "projects/" + project_number
 
     services = get_enabled_services(credentials=credentials, project_name=project_name)
 
     for service in services:
-        service_name = service['config']['name']
+        service_name = service["config"]["name"]
 
         if service_name in services_to_enable:
             services_to_enable[service_name] = False
 
     for service_name, should_enable in services_to_enable.items():
         if should_enable:
-            service_long_name = project_name + '/services/' + service_name
+            service_long_name = project_name + "/services/" + service_name
             enable_service(credentials=credentials, service_name=service_long_name)
             enabled_services.append(service_long_name)
 
@@ -140,21 +134,22 @@ def get_projects(credentials):
     """
     organization_projects = []
 
-    cloud_resource_manager = discovery.build('cloudresourcemanager', 'v1', credentials=credentials)
+    cloud_resource_manager = discovery.build(
+        "cloudresourcemanager", "v1", credentials=credentials
+    )
 
     projects_request = cloud_resource_manager.projects().list()
 
     while projects_request is not None:
         projects = projects_request.execute()
 
-        if 'projects' not in projects:
+        if "projects" not in projects:
             break
 
-        organization_projects = organization_projects + projects['projects']
+        organization_projects = organization_projects + projects["projects"]
 
         projects_request = cloud_resource_manager.projects().list_next(
-            previous_request=projects_request,
-            previous_response=projects
+            previous_request=projects_request, previous_response=projects
         )
 
     return organization_projects
@@ -168,26 +163,23 @@ def get_enabled_services(credentials, project_name):
     """
     enabled_services = []
 
-    service_usage = discovery.build('serviceusage', 'v1', credentials=credentials)
+    service_usage = discovery.build("serviceusage", "v1", credentials=credentials)
 
-    services_filter = 'state:' + STATE_ENABLED
+    services_filter = "state:" + STATE_ENABLED
     services_request = service_usage.services().list(
-        parent=project_name,
-        pageSize=200,
-        filter=services_filter
+        parent=project_name, pageSize=200, filter=services_filter
     )
 
     while services_request is not None:
         services = services_request.execute()
 
-        if 'services' not in services:
+        if "services" not in services:
             break
 
-        enabled_services = enabled_services + services['services']
+        enabled_services = enabled_services + services["services"]
 
         services_request = service_usage.services().list_next(
-            previous_request=services_request,
-            previous_response=services
+            previous_request=services_request, previous_response=services
         )
 
     return enabled_services
@@ -199,7 +191,7 @@ def enable_service(credentials, service_name):
     :param service_name: string
     :return: bool
     """
-    service_usage = discovery.build('serviceusage', 'v1', credentials=credentials)
+    service_usage = discovery.build("serviceusage", "v1", credentials=credentials)
 
     service_usage.services().enable(name=service_name).execute()
 
