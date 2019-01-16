@@ -2,11 +2,11 @@
 
 Google Cloud Function that enables stated APIs for newly created projects. GCP API Enabler saves your time, especially when you need to create multiple GCP projects at once.
 
-[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
-[![Python: 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://python.org)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![pipeline status](https://gitlab.com/kiwicom/gcp-api-enabler/badges/master/pipeline.svg)](https://gitlab.com/kiwicom/gcp-api-enabler/commits/master)
 [![coverage report](https://gitlab.com/kiwicom/gcp-api-enabler/badges/master/coverage.svg)](https://gitlab.com/kiwicom/gcp-api-enabler/commits/master)
+[![serverless](http://public.serverless.com/badges/v3.svg)](https://www.serverless.com)
+[![Python: 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://python.org)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kiwicom/gitlab-unfurly/blob/master/LICENSE)
 
 GCP API Enabler has two handler methods - one that gets triggered with simple GET request, and another one that can be triggered from Google Cloud Pub/Sub topic when new project in organization is created. In the documentation below, we will show you how to setup a function that will be triggered when a new project is created under your Google Cloud organization.
