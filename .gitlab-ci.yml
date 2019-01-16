@@ -1,6 +1,17 @@
-before_script:
-  - pip install -r requirements.txt
+stages:
+  - test
 
-test:
+code-format:
+  stage: test
+  image: kiwicom/black:18.9b0
+  script:
+    - black --check .
+
+tests:
+  stage: test
+  image: python:3.7-alpine
+  before_script:
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
   script:
     - pytest -s
