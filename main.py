@@ -59,6 +59,7 @@ def api_enabler_listener(data, context):
     credentials = get_credentials()
 
     # You can send project_number directly from Testing tab in Cloud Functions editor
+    # e.g. {"project_number":"project-number-12345"}
     if "project_number" in data:
         response_data["enabledServices"][data["project_number"]] = enable_services(
             credentials=credentials, project_number=data["project_number"]
