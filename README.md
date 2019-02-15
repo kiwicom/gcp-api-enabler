@@ -7,7 +7,7 @@ Google Cloud Function that enables stated APIs for newly created projects. GCP A
 [![serverless](http://public.serverless.com/badges/v3.svg)](https://www.serverless.com)
 [![Python: 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://python.org)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kiwicom/gitlab-unfurly/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kiwicom/gcp-api-enabler/blob/master/LICENSE)
 
 GCP API Enabler has two handler methods - one that gets triggered with simple GET request, and another one that can be triggered from Google Cloud Pub/Sub topic when new project in organization is created. In the documentation below, we will show you how to setup a function that will be triggered when a new project is created under your Google Cloud organization.
 
