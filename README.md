@@ -15,6 +15,14 @@ The one that gets triggered with GET request will enable stated APIs for all you
 
 The other one, triggered by the Pub/Sub topic when new project is created, will enable APIs only for that project.
 
+You can also trigger your cloud function directly from "Testing" tab, by sending data as:
+
+```
+{
+  "project_number": "testing-project-123"
+}
+```
+
 ## Usage
 
 ### Requirements
